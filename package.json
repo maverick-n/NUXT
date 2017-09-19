@@ -1,0 +1,44 @@
+{
+  "name": "nuxt-web",
+  "version": "1.0.0",
+  "description": "Nuxt.js project",
+  "author": "",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate",
+    "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
+    "precommit": "npm run lint"
+  },
+  "dependencies": {
+    "axios": "^0.16.2",
+    "nuxt": "^1.0.0-rc8",
+    "vue-awesome-swiper": "^2.6.4"
+  },
+  "devDependencies": {
+    "@nuxtjs/axios": "^4.2.1",
+    "@nuxtjs/proxy": "^1.1.2",
+    "axios": "^0.16.2",
+    "babel-eslint": "^7.2.3",
+    "babel-loader": "^7.1.2",
+    "build": "^0.1.4",
+    "css-loader": "^0.28.7",
+    "eslint": "^4.3.0",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-loader": "^1.9.0",
+    "eslint-plugin-html": "^3.1.1",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-node": "^5.1.1",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "less-loader": "^4.0.5",
+    "nuxt": "^1.0.0-rc9",
+    "postcss-loader": "^2.0.6",
+    "start": "^5.1.0",
+    "style-loader": "^0.18.2",
+    "url-loader": "^0.5.9",
+    "vue-awesome-swiper": "^2.6.4"
+  }
+}
