@@ -21,19 +21,19 @@
 					<div class="contenttextleft">
 						<ul class="columns-list" id="columns">
 							<li v-for="i in backData.contents">
-								<a class='list-pic'>
+								<a class='list-pic' :href='"../../More/content/"+i.content.id'>
 									<img :src="i.content.image" :alt="i.content.title" :title="i.content.title" />
 								</a>
 								<div class='list-inner'>
 									<div class='list-cont'>
 										<h2 :title="i.content.title">
-                                        <a href='javascript:;' class='line2'>{{i.content.title}}</a>
+                                        <a :href='"../../More/content/"+i.content.id' class='line2'>{{i.content.title}}</a>
                                        </h2>
 										<p class='line2'>{{i.content.summary}}</p>
 									</div>
 									<div class='list-fn'>
 										<div class='fl'>
-											<a href='javascript:;' class='user'>
+											<a :href='"../../More/user/"+i.content.id' class='user'>
 												<img :src="i.author.avatar" width='22' height='22' />
 												<span>{{i.author.nickName}}</span>
 											</a>
@@ -41,9 +41,9 @@
 											<a class='heat'>{{i.content.heatCount}}热度</a>
 										</div>
 										<div class='share share-fn fr'>
-											<a title='分享到新浪微博' class='shareBox tsina'></a>
-											<a class='shareBox qzone' title='分享到QQ空间'></a>
-											<a class='shareBox cqq' title='分享给QQ好友'></a>
+											<a title='分享到新浪微博' class='shareBox tsina' @click="wb($event)"></a>
+											<a class='shareBox qzone' title='分享到QQ空间' @click="kj($event)"></a>
+											<a class='shareBox cqq' title='分享给QQ好友' @click="qq($event)"></a>
 											<div title='分享到微信' class='wx-qrcode'>
 												<a class='weixin'></a>
 											</div>
@@ -59,7 +59,7 @@
 						<strong><i></i>最热门</strong>
 						<ul class="zuihostcontent clearfix">
 							<li v-for="i in backData.hotContents">
-								<a href="javascript:;" :title="i.content.title">
+								<a :href='"../../More/content/"+i.content.id' :title="i.content.title">
 									<img :src="i.content.image" :alt="i.content.title">
 									<strong>{{i.content.title}}</strong>
 								</a>
@@ -119,6 +119,7 @@
 			this.$nextTick(function() {
 				window.addEventListener('scroll', this.onScroll);
 			})
+
 		},
 		methods: {
 			onScroll() {
@@ -139,6 +140,39 @@
 				} else if(target.id == 37) {
 					target.href = '37'
 				}
+			},
+			wb(event) {
+				//					let target = event.target;
+				//				var shareqqstring="http://service.weibo.com/share/mobile.php?url="+'target.parentNode.parentNode.parentNode.parentNode.firstChild.href'+"&title="+target.parentNode.parentNode.parentNode.firstChild.innerHTML+"&pics="+target.parentNode.parentNode.parentNode.parentNode.firstChild.firstChild.src;
+				//				window.open(shareqqstring,'newwindow','height=800,width=800,top=100,left=600');
+				let target = event.target;
+				window.sharetitle = target.parentNode.parentNode.parentNode.firstChild.firstChild.firstChild.innerHTML;
+				window.shareUrl = target.parentNode.parentNode.parentNode.parentNode.firstChild.firstChild.src;
+				(function(s, d, e) {
+					try {} catch(e) {}
+					var f = 'http://v.t.sina.com.cn/share/share.php?',
+						u = d.location.href,
+						p = ['url=', e(u), '&title=', e(window.sharetitle), '&appkey=2924220432', '&pic=', e(window.shareUrl)].join('');
+
+					function a() {
+						if(!window.open([f, p].join(''), 'mb', ['toolbar=0,status=0,resizable=1,width=620,height=450,left=', (s.width - 620) / 2, ',top=', (s.height - 450) / 2].join(''))) u.href = [f, p].join('');
+					};
+					if(/Firefox/.test(navigator.userAgent)) {
+						setTimeout(a, 0)
+					} else {
+						a()
+					}
+				})(screen, document, encodeURIComponent);
+			},
+			kj(event) {
+				let target = event.target;
+				var shareqqstring = "http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=" + target.parentNode.parentNode.parentNode.parentNode.firstChild.href + "&title=" + target.parentNode.parentNode.parentNode.firstChild.firstChild.firstChild.innerHTML + "&pics=" + target.parentNode.parentNode.parentNode.parentNode.firstChild.firstChild.src;
+				window.open(shareqqstring, 'height=450,width=620,top=200,left=600');
+			},
+			qq(event) {
+				let target = event.target;
+				var shareqqstring = "http://connect.qq.com/widget/shareqq/index.html?url=" + target.parentNode.parentNode.parentNode.parentNode.firstChild.href + "&title=" + target.parentNode.parentNode.parentNode.firstChild.firstChild.firstChild.innerHTML + "&pics=" + target.parentNode.parentNode.parentNode.parentNode.firstChild.firstChild.src;
+				window.open(shareqqstring, 'height=800,width=800,top=100,left=800');
 			}
 		}
 	}
@@ -431,6 +465,12 @@
 		float: left;
 		margin-bottom: 15px;
 		margin-right: 2px;
+	}
+	
+	.contenttextright>.zuihost>.zuihostcontent>li>a {
+		display: inline-block;
+		width: 100%;
+		height: 100%;
 	}
 	
 	.contenttextright>.zuihost>.zuihostcontent>li>a>img {

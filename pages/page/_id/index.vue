@@ -8,7 +8,7 @@
 					</a>
 					<ul>
 						<li v-for="i in data">
-							<a :id="i.channel.id" :href='"Navigation/"+i.channel.id' @click="get($event)">{{i.channel.name}}</a>
+							<a :id="i.channel.id" :href='"../../Navigation/"+i.channel.id' @click="get($event)">{{i.channel.name}}</a>
 						</li>
 					</ul>
 				</div>
@@ -26,13 +26,13 @@
 						</ul>
 						<ul class="waterfall">
 							<li v-for="i in backData.contents" :title="i.content.title" :width="i.content.imageWidth" class="contentimage">
-								<a :href='"More/content/"+i.content.id' :id="i.content.id">
+								<a :href='"../../More/content/"+i.content.id' :id="i.content.id">
 									<img :src="i.content.image">
 								</a>
 								<div class="contenttext-tltle">
 									<h2 :title="i.content.title">{{i.content.title}}</h2>
 									<div class="content-name">
-										<a :href='"More/user/"+i.author.id' :title="i.author.nickName">{{i.author.nickName}}</a>
+										<a :href='"../../More/user/"+i.author.id' :title="i.author.nickName">{{i.author.nickName}}</a>
 										<div class="share">
 											<a title="分享到新浪微博" @click="wb($event)"></a>
 											<a title="分享到QQ空间" @click="kj($event)"></a>
@@ -51,7 +51,7 @@
 						<strong><i></i>最热门</strong>
 						<ul class="zuihostcontent clearfix">
 							<li v-for="i in backData.hotContents">
-								<a :href='"More/content/"+i.content.id' :title="i.content.title">
+								<a :href='"../../More/content/"+i.content.id' :title="i.content.title">
 									<img :src="i.content.image" :alt="i.content.title">
 									<strong>{{i.content.title}}</strong>
 								</a>
@@ -61,7 +61,7 @@
 					<div class="zuihosttag">
 						<strong class="clearfix"><i></i>热门标签<a href="/More/Fulltag">更多</a></strong>
 						<div class="zuihosttaglist">
-							<a v-for="i in backData.hotTag" :id="i.id" :href='"More/"+i.id'>{{i.name}}</a>
+							<a v-for="i in backData.hotTag" :id="i.id" :href='"../../More/"+i.id'>{{i.name}}</a>
 						</div>
 					</div>
 					<div class="Hottopic">
@@ -79,10 +79,10 @@
 			</div>
 		</div>
 		<div id="page-box">
-			<div class="page">
+			<div class="pages">
 				<a href="javascript:;">
 					<</a>
-						<a :href='"page/"+i' v-for="i in backData.totalPage">{{i}}</a>
+						<a :href='i' v-for="i in backData.totalPage" :id='i'>{{i}}</a>
 			</div>
 		</div>
 		<div id="gotop" @click="gotop">
@@ -101,13 +101,16 @@
 </template>
 
 <script>
-	import axios from 'axios'
+	import axios from 'axios';
 	export default {
-		async asyncData({}) {
+
+		async asyncData({
+			params
+		}) {
 			let {
 				data
-			} = await axios.get('http://www.17getfun.com//api/channel/allChannels');
-			let backData = await axios.get('http://www.17getfun.com/discovery/discoveryFrontPageing?page=1&pageSize=20');            
+			} = await axios.get(`http://www.17getfun.com//api/channel/allChannels`);
+			var backData = await axios.get(`http://www.17getfun.com/discovery/discoveryFrontPageing?page=${params.id}&pageSize=20`);            
 			return {
 				data: data.data,
 				backData: backData.data.data
@@ -117,6 +120,9 @@
 			this.$nextTick(function() {
 				window.addEventListener('scroll', this.onScroll);
 			})
+			let page = (window.location.href).substr(27, 1);
+			document.getElementById(page).style.background = "yellow"
+			document.getElementById(page).style.color = "#000000"
 		},
 		methods: {
 			onScroll() {
@@ -135,13 +141,13 @@
 				if(target.id == 41) {
 					target.href = '/'
 				} else if(target.id == 37) {
-					target.href = 'Specialcolumn/37'
+					target.href = '../../Specialcolumn/37'
 				}
 			},
 			wb(event) {
-//					let target = event.target;
-//				var shareqqstring="http://service.weibo.com/share/mobile.php?url="+'target.parentNode.parentNode.parentNode.parentNode.firstChild.href'+"&title="+target.parentNode.parentNode.parentNode.firstChild.innerHTML+"&pics="+target.parentNode.parentNode.parentNode.parentNode.firstChild.firstChild.src;
-//				window.open(shareqqstring,'newwindow','height=800,width=800,top=100,left=600');
+				//					let target = event.target;
+				//				var shareqqstring="http://service.weibo.com/share/mobile.php?url="+'target.parentNode.parentNode.parentNode.parentNode.firstChild.href'+"&title="+target.parentNode.parentNode.parentNode.firstChild.innerHTML+"&pics="+target.parentNode.parentNode.parentNode.parentNode.firstChild.firstChild.src;
+				//				window.open(shareqqstring,'newwindow','height=800,width=800,top=100,left=600');
 				let target = event.target;
 				window.sharetitle = target.parentNode.parentNode.parentNode.firstChild.innerHTML;
 				window.shareUrl = target.parentNode.parentNode.parentNode.parentNode.firstChild.firstChild.src;
@@ -152,7 +158,7 @@
 						p = ['url=', e(u), '&title=', e(window.sharetitle), '&appkey=2924220432', '&pic=', e(window.shareUrl)].join('');
 
 					function a() {
-						if(!window.open([f, p].join(''),'mb', ['toolbar=0,status=0,resizable=1,width=620,height=450,left=', (s.width - 620) / 2, ',top=', (s.height - 450) / 2].join(''))) u.href = [f, p].join('');
+						if(!window.open([f, p].join(''), 'mb', ['toolbar=0,status=0,resizable=1,width=620,height=450,left=', (s.width - 620) / 2, ',top=', (s.height - 450) / 2].join(''))) u.href = [f, p].join('');
 					};
 					if(/Firefox/.test(navigator.userAgent)) {
 						setTimeout(a, 0)
@@ -161,20 +167,20 @@
 					}
 				})(screen, document, encodeURIComponent);
 			},
-      kj(event){
-      	let target = event.target;
-				var shareqqstring="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url="+target.parentNode.parentNode.parentNode.parentNode.firstChild.href+"&title="+target.parentNode.parentNode.parentNode.firstChild.innerHTML+"&pics="+target.parentNode.parentNode.parentNode.parentNode.firstChild.firstChild.src;	
-        window.open(shareqqstring,'height=450,width=620,top=200,left=600');
-      },
-				qq(event){
-					let target = event.target;
-				var shareqqstring="http://connect.qq.com/widget/shareqq/index.html?url="+target.parentNode.parentNode.parentNode.parentNode.firstChild.href+"&title="+target.parentNode.parentNode.parentNode.firstChild.innerHTML+"&pics="+target.parentNode.parentNode.parentNode.parentNode.firstChild.firstChild.src;
-				window.open(shareqqstring,'height=800,width=800,top=100,left=800');
-				}
+			kj(event) {
+				let target = event.target;
+				var shareqqstring = "http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=" + target.parentNode.parentNode.parentNode.parentNode.firstChild.href + "&title=" + target.parentNode.parentNode.parentNode.firstChild.innerHTML + "&pics=" + target.parentNode.parentNode.parentNode.parentNode.firstChild.firstChild.src;
+				window.open(shareqqstring, 'height=450,width=620,top=200,left=600');
+			},
+			qq(event) {
+				let target = event.target;
+				var shareqqstring = "http://connect.qq.com/widget/shareqq/index.html?url=" + target.parentNode.parentNode.parentNode.parentNode.firstChild.href + "&title=" + target.parentNode.parentNode.parentNode.firstChild.innerHTML + "&pics=" + target.parentNode.parentNode.parentNode.parentNode.firstChild.firstChild.src;
+				window.open(shareqqstring, 'height=800,width=800,top=100,left=800');
+			}
 		}
-
 	}
 </script>
+
 <style scoped>
 	* {
 		margin: 0;
@@ -198,7 +204,6 @@
 	#div {
 		width: 100%;
 		height: 80px;
-		
 	}
 	
 	header {
@@ -588,14 +593,14 @@
 		margin: 0 auto;
 	}
 	
-	#page-box>.page>a {
+	#page-box>.pages>a {
 		padding: 15px 20px;
 		font-size: 18px;
 		color: #999;
 		margin: 5px;
 	}
 	
-	#page-box>.page>a:hover {
+	#page-box>.pages>a:hover {
 		background: yellow;
 		color: #000000;
 	}

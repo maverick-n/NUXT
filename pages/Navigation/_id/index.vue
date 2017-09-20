@@ -34,9 +34,9 @@
 									<div class="content-name">
 										<a :href='"../../../More/user/"+i.author.id' :title="i.author.nickName">{{i.author.nickName}}</a>
 										<div class="share">
-											<a href="javascript:;" title="分享到新浪微博"></a>
-											<a href="javascript:;" title="分享到QQ空间"></a>
-											<a href="javascript:;" title="分享到QQ好友"></a>
+											<a href="javascript:;" title="分享到新浪微博" @click="wb($event)"></a>
+											<a href="javascript:;" title="分享到QQ空间" @click="kj($event)"></a>
+											<a href="javascript:;" title="分享到QQ好友" @click="qq($event)"></a>
 											<a href="javascript:;" title="分享到微信"></a>
 										</div>
 									</div>
@@ -51,7 +51,7 @@
 						<strong><i></i>最热门</strong>
 						<ul class="zuihostcontent clearfix">
 							<li v-for="i in backData.hotContents">
-								<a href="javascript:;" :title="i.content.title">
+								<a :href='"../../More/content/"+i.content.id' :title="i.content.title">
 									<img :src="i.content.image" :alt="i.content.title">
 									<strong>{{i.content.title}}</strong>
 								</a>
@@ -61,7 +61,7 @@
 					<div class="zuihosttag">
 						<strong class="clearfix"><i></i>热门标签<a href="/More/Fulltag">更多</a></strong>
 						<div class="zuihosttaglist">
-							<a v-for="i in backData.hotTag">{{i.name}}</a>
+							<a v-for="i in backData.hotTag" :href='"../../More/"+i.id'>{{i.name}}</a>
 						</div>
 					</div>
 					<div class="Hottopic">
@@ -116,6 +116,10 @@
 			this.$nextTick(function() {
 				window.addEventListener('scroll', this.onScroll);
 			})
+
+			let nav = (window.location.href).substr(33, 2);
+			document.getElementById(nav).style.color = "#e7497a";
+			document.getElementById(nav).style.fontWeight = "bold";
 		},
 		methods: {
 			onScroll() {
@@ -136,6 +140,36 @@
 				} else if(target.id == 37) {
 					target.href = '../../Specialcolumn/37'
 				}
+			},
+			wb(event) {
+				let target = event.target;
+				window.sharetitle = target.parentNode.parentNode.parentNode.firstChild.innerHTML;
+				window.shareUrl = target.parentNode.parentNode.parentNode.parentNode.firstChild.firstChild.src;
+				(function(s, d, e) {
+					try {} catch(e) {}
+					var f = 'http://v.t.sina.com.cn/share/share.php?',
+						u = d.location.href,
+						p = ['url=', e(u), '&title=', e(window.sharetitle), '&appkey=2924220432', '&pic=', e(window.shareUrl)].join('');
+
+					function a() {
+						if(!window.open([f, p].join(''), 'mb', ['toolbar=0,status=0,resizable=1,width=620,height=450,left=', (s.width - 620) / 2, ',top=', (s.height - 450) / 2].join(''))) u.href = [f, p].join('');
+					};
+					if(/Firefox/.test(navigator.userAgent)) {
+						setTimeout(a, 0)
+					} else {
+						a()
+					}
+				})(screen, document, encodeURIComponent);
+			},
+			kj(event) {
+				let target = event.target;
+				var shareqqstring = "http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=" + target.parentNode.parentNode.parentNode.parentNode.firstChild.href + "&title=" + target.parentNode.parentNode.parentNode.firstChild.innerHTML + "&pics=" + target.parentNode.parentNode.parentNode.parentNode.firstChild.firstChild.src;
+				window.open(shareqqstring, 'height=450,width=620,top=200,left=600');
+			},
+			qq(event) {
+				let target = event.target;
+				var shareqqstring = "http://connect.qq.com/widget/shareqq/index.html?url=" + target.parentNode.parentNode.parentNode.parentNode.firstChild.href + "&title=" + target.parentNode.parentNode.parentNode.firstChild.innerHTML + "&pics=" + target.parentNode.parentNode.parentNode.parentNode.firstChild.firstChild.src;
+				window.open(shareqqstring, 'height=800,width=800,top=100,left=800');
 			}
 		}
 	}
@@ -216,11 +250,6 @@
 		font-size: 15px;
 	}
 	
-	.nav>.navcontent>ul>li:first-child>a {
-		color: #e7497a;
-		font-weight: bold;
-	}
-	
 	.content {
 		width: 100%;
 		height: 100%;
@@ -281,10 +310,13 @@
 	}
 	
 	.contenttextleft>.swiper {
+		width: 532px;
+		height: 220px;
 		position: relative;
 	}
 	
 	.contenttextleft>.swiper>li {
+		width: 100%;
 		position: absolute;
 	}
 	
@@ -394,6 +426,12 @@
 		float: left;
 		margin-bottom: 15px;
 		margin-right: 2px;
+	}
+	
+	.contenttextright>.zuihost>.zuihostcontent>li>a {
+		display: inline-block;
+		width: 100%;
+		height: 100%;
 	}
 	
 	.contenttextright>.zuihost>.zuihostcontent>li>a>img {

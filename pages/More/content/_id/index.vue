@@ -30,11 +30,11 @@
 								<span>{{backData.content.content.heatCountNew}}热度</span>
 							</div>
 							<div class="share-fx">
-								<a class="tsina"></a>
-								<a class="qzone"></a>
-								<a class="cqq"></a>
+								<a class="tsina" title="分享到新浪微博" @click="wb($event)"></a>
+								<a class="qzone" title="分享到QQ空间" @click="kj($event)"></a>
+								<a class="cqq" title="分享到QQ好友" @click="qq($event)"></a>
 								<div class="wx-qrcode">
-									<a class="weixin"></a>
+									<a class="weixin" title="分享到微信"></a>
 								</div>
 							</div>
 						</div>
@@ -88,6 +88,41 @@
 				data: data.data,
 				backData: backData.data.data,
 				time:time
+			}
+		},
+		methods: {
+			wb(event) {
+				//					let target = event.target;
+				//				var shareqqstring="http://service.weibo.com/share/mobile.php?url="+'target.parentNode.parentNode.parentNode.parentNode.firstChild.href'+"&title="+target.parentNode.parentNode.parentNode.firstChild.innerHTML+"&pics="+target.parentNode.parentNode.parentNode.parentNode.firstChild.firstChild.src;
+				//				window.open(shareqqstring,'newwindow','height=800,width=800,top=100,left=600');
+				let target = event.target;
+				window.sharetitle = target.parentNode.parentNode.parentNode.firstChild.firstChild.firstChild.innerHTML;
+				window.shareUrl = target.parentNode.parentNode.parentNode.parentNode.firstChild.firstChild.src;
+				(function(s, d, e) {
+					try {} catch(e) {}
+					var f = 'http://v.t.sina.com.cn/share/share.php?',
+						u = d.location.href,
+						p = ['url=', e(u), '&title=', e(window.sharetitle), '&appkey=2924220432', '&pic=', e(window.shareUrl)].join('');
+
+					function a() {
+						if(!window.open([f, p].join(''), 'mb', ['toolbar=0,status=0,resizable=1,width=620,height=450,left=', (s.width - 620) / 2, ',top=', (s.height - 450) / 2].join(''))) u.href = [f, p].join('');
+					};
+					if(/Firefox/.test(navigator.userAgent)) {
+						setTimeout(a, 0)
+					} else {
+						a()
+					}
+				})(screen, document, encodeURIComponent);
+			},
+			kj(event) {
+				let target = event.target;
+				var shareqqstring = "http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=" + target.parentNode.parentNode.parentNode.parentNode.firstChild.href + "&title=" + target.parentNode.parentNode.parentNode.firstChild.firstChild.firstChild.innerHTML + "&pics=" + target.parentNode.parentNode.parentNode.parentNode.firstChild.firstChild.src;
+				window.open(shareqqstring, 'height=450,width=620,top=200,left=600');
+			},
+			qq(event) {
+				let target = event.target;
+				var shareqqstring = "http://connect.qq.com/widget/shareqq/index.html?url=" + target.parentNode.parentNode.parentNode.parentNode.firstChild.href + "&title=" + target.parentNode.parentNode.parentNode.firstChild.firstChild.firstChild.innerHTML + "&pics=" + target.parentNode.parentNode.parentNode.parentNode.firstChild.firstChild.src;
+				window.open(shareqqstring, 'height=800,width=800,top=100,left=800');
 			}
 		}
 	}

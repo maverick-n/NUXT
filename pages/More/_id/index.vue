@@ -36,9 +36,9 @@
 									<div class="content-name">
 										<a :href='"../../More/user/"+i.author.id' :title="i.author.nickName">{{i.author.nickName}}</a>
 										<div class="share">
-											<a href="javascript:;" title="分享到新浪微博"></a>
-											<a href="javascript:;" title="分享到QQ空间"></a>
-											<a href="javascript:;" title="分享到QQ好友"></a>
+											<a href="javascript:;" title="分享到新浪微博" @click="wb($event)"></a>
+											<a href="javascript:;" title="分享到QQ空间" @click="kj($event)"></a>
+											<a href="javascript:;" title="分享到QQ好友" @click="qq($event)"></a>
 											<a href="javascript:;" title="分享到微信"></a>
 										</div>
 									</div>
@@ -53,7 +53,7 @@
 						<strong><i></i>最热门</strong>
 						<ul class="zuihostcontent clearfix">
 							<li v-for="i in backData.hotContents">
-								<a href="javascript:;" :title="i.content.title">
+								<a :href='"../../More/content/"+i.content.id' :title="i.content.title">
 									<img :src="i.content.image" :alt="i.content.title">
 									<strong>{{i.content.title}}</strong>
 								</a>
@@ -114,7 +114,7 @@
 		mounted() {
 			this.$nextTick(function() {
 				window.addEventListener('scroll', this.onScroll);
-			})			 
+			})
 		},
 		methods: {
 			onScroll() {
@@ -128,15 +128,45 @@
 			gotop() {
 				document.body.scrollTop = 0;
 			},
-					get(event){
-			let target = event.target;
-		    if(target.id==41){
-		    	target.href='/'
-		    }else if(target.id==37){
-		        target.href='../../Specialcolumn/37'
-		    }  
-		}
+			get(event) {
+				let target = event.target;
+				if(target.id == 41) {
+					target.href = '/'
+				} else if(target.id == 37) {
+					target.href = '../../Specialcolumn/37'
+				}
+			},
+			wb(event) {
+				let target = event.target;
+				window.sharetitle = target.parentNode.parentNode.parentNode.firstChild.innerHTML;
+				window.shareUrl = target.parentNode.parentNode.parentNode.parentNode.firstChild.firstChild.src;
+				(function(s, d, e) {
+					try {} catch(e) {}
+					var f = 'http://v.t.sina.com.cn/share/share.php?',
+						u = d.location.href,
+						p = ['url=', e(u), '&title=', e(window.sharetitle), '&appkey=2924220432', '&pic=', e(window.shareUrl)].join('');
+
+					function a() {
+						if(!window.open([f, p].join(''), 'mb', ['toolbar=0,status=0,resizable=1,width=620,height=450,left=', (s.width - 620) / 2, ',top=', (s.height - 450) / 2].join(''))) u.href = [f, p].join('');
+					};
+					if(/Firefox/.test(navigator.userAgent)) {
+						setTimeout(a, 0)
+					} else {
+						a()
+					}
+				})(screen, document, encodeURIComponent);
+			},
+			kj(event) {
+				let target = event.target;
+				var shareqqstring = "http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=" + target.parentNode.parentNode.parentNode.parentNode.firstChild.href + "&title=" + target.parentNode.parentNode.parentNode.firstChild.innerHTML + "&pics=" + target.parentNode.parentNode.parentNode.parentNode.firstChild.firstChild.src;
+				window.open(shareqqstring, 'height=450,width=620,top=200,left=600');
+			},
+			qq(event) {
+				let target = event.target;
+				var shareqqstring = "http://connect.qq.com/widget/shareqq/index.html?url=" + target.parentNode.parentNode.parentNode.parentNode.firstChild.href + "&title=" + target.parentNode.parentNode.parentNode.firstChild.innerHTML + "&pics=" + target.parentNode.parentNode.parentNode.parentNode.firstChild.firstChild.src;
+				window.open(shareqqstring, 'height=800,width=800,top=100,left=800');
 			}
+		}
 	}
 </script>
 <style scoped>
@@ -249,107 +279,129 @@
 		padding: 10px;
 	}
 	
-	.contenttextleft>.waterfall{
-width:100%;
--moz-column-count:3; /* Firefox */
- -webkit-column-count:3; /* Safari 和 Chrome */
- column-count:3;
- -moz-column-gap: 1em;
-  -webkit-column-gap: 1em;
-   column-gap: 1em;
-}
-.waterfall{
- margin-top:5px ;
-}
-.contentimage{
-	  -moz-page-break-inside: avoid;
-   -webkit-column-break-inside: avoid;
-   break-inside: avoid;
-   margin: 5px;
-}
-.contenttextleft>ul>.contentimage>a{
-  display:block;
-  width:260px;
-  max-height:464px;
-  overflow: hidden;
-}
-.contenttextleft>ul>.contentimage>a>img{
-  display:block;
-  width: 100%;
-  height: 100%;
-  border-radius: 3px;
-}
-.contenttextleft>.swiper{
-  position: relative;  
-}
-.contenttextleft>.swiper>li{
-   position: absolute;
-}
-.contenttextleft>.swiper>li>a>img{
-    width:532px;
-    height:220px; 
-}
-.contenttextleft>.waterfall>li>a{
-  display:block;
-  overflow: hidden;
-}
-.contenttextleft>.waterfall>li>a>img:hover{
-  transform:scale(1.02);
-  transition:0.5s;
-}
-.contenttextleft>.waterfall>li>.contenttext-tltle>h2{
-  color:#666;
-  font-size:12px;
-  padding: 5px;
-  border-bottom:1px solid #ccc;
-  white-space:nowrap;
-   text-overflow:ellipsis;
-     overflow:hidden;
-}
-.contenttextleft>.waterfall>li>.contenttext-tltle{
-  background:#fff;
-  width:100%;
-  padding:8px;
-}
-.contenttextleft>.waterfall>li>.contenttext-tltle>.content-name{
-  padding:8px 0px;
-}
-.contenttextleft>.waterfall>li>.contenttext-tltle>.content-name>a{
-  color:#B5B5B5;
-  font-size:12px;
-  text-decoration: none;
-  display:inline-block;
-  padding:5px 0px;
-}
-.contenttextleft>.waterfall>li>.contenttext-tltle>.content-name>.share{
-   float:right; 
-   margin-right:10px;
-}
-.contenttextleft>.waterfall>li>.contenttext-tltle>.content-name>.share>a{
-   background:url("//static.17getfun.com/2017s3/image/publish/index2/share-icon.png");
-  background-size:150%;
-  background-repeat: no-repeat;
-  display: inline-block;
-  width:32px;
-   height:31px;
-  cursor: pointer;
-  opacity:0.4;
-}
-.contenttextleft>.waterfall>li>.contenttext-tltle>.content-name>.share>a:hover{
-  opacity:1;
-}
-.contenttextleft>.waterfall>li>.contenttext-tltle>.content-name>.share>a:nth-child(1){
-      background-position:4px -21px;
-}
-.contenttextleft>.waterfall>li>.contenttext-tltle>.content-name>.share>a:nth-child(2){
-      background-position:4px -46px;
-}
-.contenttextleft>.waterfall>li>.contenttext-tltle>.content-name>.share>a:nth-child(3){
-      background-position:2px -94px;
-}
-.contenttextleft>.waterfall>li>.contenttext-tltle>.content-name>.share>a:nth-child(4){
-      background-position:5px -69px;
-}
+	.contenttextleft>.waterfall {
+		width: 100%;
+		-moz-column-count: 3;
+		/* Firefox */
+		-webkit-column-count: 3;
+		/* Safari 和 Chrome */
+		column-count: 3;
+		-moz-column-gap: 1em;
+		-webkit-column-gap: 1em;
+		column-gap: 1em;
+	}
+	
+	.waterfall {
+		margin-top: 5px;
+	}
+	
+	.contentimage {
+		-moz-page-break-inside: avoid;
+		-webkit-column-break-inside: avoid;
+		break-inside: avoid;
+		margin: 5px;
+	}
+	
+	.contenttextleft>ul>.contentimage>a {
+		display: block;
+		width: 260px;
+		max-height: 464px;
+		overflow: hidden;
+	}
+	
+	.contenttextleft>ul>.contentimage>a>img {
+		display: block;
+		width: 100%;
+		height: 100%;
+		border-radius: 3px;
+	}
+	
+	.contenttextleft>.swiper {
+		position: relative;
+	}
+	
+	.contenttextleft>.swiper>li {
+		position: absolute;
+	}
+	
+	.contenttextleft>.swiper>li>a>img {
+		width: 532px;
+		height: 220px;
+	}
+	
+	.contenttextleft>.waterfall>li>a {
+		display: block;
+		overflow: hidden;
+	}
+	
+	.contenttextleft>.waterfall>li>a>img:hover {
+		transform: scale(1.02);
+		transition: 0.5s;
+	}
+	
+	.contenttextleft>.waterfall>li>.contenttext-tltle>h2 {
+		color: #666;
+		font-size: 12px;
+		padding: 5px;
+		border-bottom: 1px solid #ccc;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		overflow: hidden;
+	}
+	
+	.contenttextleft>.waterfall>li>.contenttext-tltle {
+		background: #fff;
+		width: 100%;
+		padding: 8px;
+	}
+	
+	.contenttextleft>.waterfall>li>.contenttext-tltle>.content-name {
+		padding: 8px 0px;
+	}
+	
+	.contenttextleft>.waterfall>li>.contenttext-tltle>.content-name>a {
+		color: #B5B5B5;
+		font-size: 12px;
+		text-decoration: none;
+		display: inline-block;
+		padding: 5px 0px;
+	}
+	
+	.contenttextleft>.waterfall>li>.contenttext-tltle>.content-name>.share {
+		float: right;
+		margin-right: 10px;
+	}
+	
+	.contenttextleft>.waterfall>li>.contenttext-tltle>.content-name>.share>a {
+		background: url("//static.17getfun.com/2017s3/image/publish/index2/share-icon.png");
+		background-size: 150%;
+		background-repeat: no-repeat;
+		display: inline-block;
+		width: 32px;
+		height: 31px;
+		cursor: pointer;
+		opacity: 0.4;
+	}
+	
+	.contenttextleft>.waterfall>li>.contenttext-tltle>.content-name>.share>a:hover {
+		opacity: 1;
+	}
+	
+	.contenttextleft>.waterfall>li>.contenttext-tltle>.content-name>.share>a:nth-child(1) {
+		background-position: 4px -21px;
+	}
+	
+	.contenttextleft>.waterfall>li>.contenttext-tltle>.content-name>.share>a:nth-child(2) {
+		background-position: 4px -46px;
+	}
+	
+	.contenttextleft>.waterfall>li>.contenttext-tltle>.content-name>.share>a:nth-child(3) {
+		background-position: 2px -94px;
+	}
+	
+	.contenttextleft>.waterfall>li>.contenttext-tltle>.content-name>.share>a:nth-child(4) {
+		background-position: 5px -69px;
+	}
 	
 	.contenttextright>.zuihost {
 		width: 260px;
@@ -381,6 +433,12 @@ width:100%;
 		float: left;
 		margin-bottom: 15px;
 		margin-right: 2px;
+	}
+	
+	.contenttextright>.zuihost>.zuihostcontent>li>a {
+		display: inline-block;
+		width: 100%;
+		height: 100%;
 	}
 	
 	.contenttextright>.zuihost>.zuihostcontent>li>a>img {
