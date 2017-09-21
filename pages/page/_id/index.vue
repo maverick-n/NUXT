@@ -120,7 +120,7 @@
 			this.$nextTick(function() {
 				window.addEventListener('scroll', this.onScroll);
 			})
-			let page = (window.location.href).substr(27, 1);
+			let page = (window.location.href).substr(27, 2);
 			document.getElementById(page).style.background = "yellow"
 			document.getElementById(page).style.color = "#000000"
 		},

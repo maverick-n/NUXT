@@ -70,15 +70,14 @@
 		methods: {
 			onScroll() {
 				let scrolled = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
-				let clientHeight=document.documentElement.clientHeight;
-				let scrollHeight=document.body.scrollHeight;
+				let clientHeight = document.documentElement.clientHeight;
+				let scrollHeight = document.body.scrollHeight;
 				if(scrolled >= 200) {
 					document.getElementById("gotop").style.opacity = 1;
-				}
-				else {
+				} else {
 					document.getElementById("gotop").style.opacity = 0;
 				}
-				if(scrollHeight-(scrolled + clientHeight)<200){
+				if(scrollHeight - (scrolled + clientHeight) < 200) {
 					axios.get(`http://www.17getfun.com//api/channel/allChannels`)
 				}
 			},
@@ -104,7 +103,7 @@
 						p = ['url=', e(u), '&title=', e(window.sharetitle), '&appkey=2924220432', '&pic=', e(window.shareUrl)].join('');
 
 					function a() {
-						if(!window.open([f, p].join(''),'mb', ['toolbar=0,status=0,resizable=1,width=620,height=450,left=', (s.width - 620) / 2, ',top=', (s.height - 450) / 2].join(''))) u.href = [f, p].join('');
+						if(!window.open([f, p].join(''), 'mb', ['toolbar=0,status=0,resizable=1,width=620,height=450,left=', (s.width - 620) / 2, ',top=', (s.height - 450) / 2].join(''))) u.href = [f, p].join('');
 					};
 					if(/Firefox/.test(navigator.userAgent)) {
 						setTimeout(a, 0)
@@ -113,16 +112,16 @@
 					}
 				})(screen, document, encodeURIComponent);
 			},
-      kj(event){
-      	let target = event.target;
-				var shareqqstring="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url="+target.parentNode.parentNode.parentNode.parentNode.firstChild.href+"&title="+target.parentNode.parentNode.parentNode.firstChild.innerHTML+"&pics="+target.parentNode.parentNode.parentNode.parentNode.firstChild.firstChild.src;	
-        window.open(shareqqstring,'height=450,width=620,top=200,left=600');
-      },
-				qq(event){
-					let target = event.target;
-				var shareqqstring="http://connect.qq.com/widget/shareqq/index.html?url="+target.parentNode.parentNode.parentNode.parentNode.firstChild.href+"&title="+target.parentNode.parentNode.parentNode.firstChild.innerHTML+"&pics="+target.parentNode.parentNode.parentNode.parentNode.firstChild.firstChild.src;
-				window.open(shareqqstring,'height=800,width=800,top=100,left=800');
-				}
+			kj(event) {
+				let target = event.target;
+				var shareqqstring = "http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=" + target.parentNode.parentNode.parentNode.parentNode.firstChild.href + "&title=" + target.parentNode.parentNode.parentNode.firstChild.innerHTML + "&pics=" + target.parentNode.parentNode.parentNode.parentNode.firstChild.firstChild.src;
+				window.open(shareqqstring, 'height=450,width=620,top=200,left=600');
+			},
+			qq(event) {
+				let target = event.target;
+				var shareqqstring = "http://connect.qq.com/widget/shareqq/index.html?url=" + target.parentNode.parentNode.parentNode.parentNode.firstChild.href + "&title=" + target.parentNode.parentNode.parentNode.firstChild.innerHTML + "&pics=" + target.parentNode.parentNode.parentNode.parentNode.firstChild.firstChild.src;
+				window.open(shareqqstring, 'height=800,width=800,top=100,left=800');
+			}
 		}
 	}
 </script>

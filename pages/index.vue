@@ -139,9 +139,6 @@
 				}
 			},
 			wb(event) {
-//					let target = event.target;
-//				var shareqqstring="http://service.weibo.com/share/mobile.php?url="+'target.parentNode.parentNode.parentNode.parentNode.firstChild.href'+"&title="+target.parentNode.parentNode.parentNode.firstChild.innerHTML+"&pics="+target.parentNode.parentNode.parentNode.parentNode.firstChild.firstChild.src;
-//				window.open(shareqqstring,'newwindow','height=800,width=800,top=100,left=600');
 				let target = event.target;
 				window.sharetitle = target.parentNode.parentNode.parentNode.firstChild.innerHTML;
 				window.shareUrl = target.parentNode.parentNode.parentNode.parentNode.firstChild.firstChild.src;
@@ -287,7 +284,7 @@
 		/* Firefox */
 		-webkit-column-count: 3;
 		/* Safari 和 Chrome */
-		column-count: 3;
+		column-count: 4;
 		-moz-column-gap: 1em;
 		-webkit-column-gap: 1em;
 		column-gap: 1em;
@@ -594,7 +591,10 @@
 		color: #999;
 		margin: 5px;
 	}
-	
+		#page-box>.page>a:nth-child(2){
+		background: yellow;
+		color: #000000;
+	}
 	#page-box>.page>a:hover {
 		background: yellow;
 		color: #000000;
