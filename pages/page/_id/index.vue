@@ -8,7 +8,7 @@
 					</a>
 					<ul>
 						<li v-for="i in data">
-							<a :id="i.channel.id" :href='"../../Navigation/"+i.channel.id' @click="get($event)">{{i.channel.name}}</a>
+							<a :id="i.channel.id" :href='"../Navigation/"+i.channel.id' @click="get($event)">{{i.channel.name}}</a>
 						</li>
 					</ul>
 				</div>
@@ -44,6 +44,7 @@
 							</li>
 						</ul>
 					</div>
+
 				</div>
 
 				<div class="contenttextright">
@@ -59,7 +60,7 @@
 						</ul>
 					</div>
 					<div class="zuihosttag">
-						<strong class="clearfix"><i></i>热门标签<a href="/More/Fulltag">更多</a></strong>
+						<strong class="clearfix"><i></i>热门标签<a href="../../More/Fulltag">更多</a></strong>
 						<div class="zuihosttaglist">
 							<a v-for="i in backData.hotTag" :id="i.id" :href='"../../More/"+i.id'>{{i.name}}</a>
 						</div>
@@ -78,53 +79,67 @@
 				</div>
 			</div>
 		</div>
-		<div id="page-box">
-			<div class="pages">
-				<a href="javascript:;">
-					<</a>
-						<a :href='i' v-for="i in backData.totalPage" :id='i'>{{i}}</a>
-			</div>
+		<div id="page-box" :data='backData.totalPage'>
+			<pag></pag>
 		</div>
 		<div id="gotop" @click="gotop">
 		</div>
-		<footer>
-			<div class="footer">
-				<p>旭峰海波科技（北京）有限公司 Copyright ©2016 All Rights Reserved. &nbsp;&nbsp;&nbsp;京ICP备15059087号</p>
-				<p>
-					<a target="_blank" href="http://www.17getfun.com/publish/index">关于我们</a> &nbsp; | &nbsp;
-					<a target="_blank" href="http://www.17getfun.com/publish/index">联系我们</a> &nbsp; | &nbsp;
-					<a target="_blank" href="http://www.17getfun.com/publish/index">APP下载</a>
-				</p>
-			</div>
-		</footer>
 	</div>
 </template>
 
 <script>
-	import axios from 'axios';
+	import axios from 'axios'
+	import pag from '~components/pag'
 	export default {
-
-		async asyncData({
-			params
-		}) {
+		async asyncData({params}) {
 			let {
 				data
-			} = await axios.get(`http://www.17getfun.com//api/channel/allChannels`);
-			var backData = await axios.get(`http://www.17getfun.com/discovery/discoveryFrontPageing?page=${params.id}&pageSize=20`);            
+			} = await axios.get('http://www.17getfun.com//api/channel/allChannels');
+			let backData = await axios.get(`http://www.17getfun.com/discovery/discoveryFrontPageing?page=${params.id}&pageSize=20`);            
 			return {
 				data: data.data,
 				backData: backData.data.data
 			}
 		},
+		components: {
+			pag
+		},
+		computed: {
+			pages() {
+				var pag = [];
+				if(this.current < this.showItem) { //如果当前的激活的项 小于要显示的条数
+					//总页数和要显示的条数那个大就显示多少条
+					var i = Math.min(this.showItem, this.allpage);
+					while(i) {
+						pag.unshift(i--);
+					}
+				} else { //当前页数大于显示页数了
+					var middle = this.current - Math.floor(this.showItem / 2), //从哪里开始
+						i = this.showItem;
+					if(middle > (this.allpage - this.showItem)) {
+						middle = (this.allpage - this.showItem) + 1
+					}
+					while(i--) {
+						pag.push(middle++);
+					}
+				}
+				return pag
+			}
+		},
 		mounted() {
 			this.$nextTick(function() {
 				window.addEventListener('scroll', this.onScroll);
-			})
-			let page = (window.location.href).substr(27, 2);
-			document.getElementById(page).style.background = "yellow"
-			document.getElementById(page).style.color = "#000000"
+			});
+			let nav = (window.location.href).substr(27,3);
+			console.log(document.getElementById(nav))
+			
+//			document.getElementById("nav").style.color="#000000";
+//			document.getElementById("nav").style.background="#ffd100";	
+//			document.getElementById(nav).style.color = "#e7497a";
+//			document.getElementById(nav).style.fontWeight = "bold";
 		},
 		methods: {
+
 			onScroll() {
 				let scrolled = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop
 				if(scrolled >= 200) {
@@ -145,9 +160,6 @@
 				}
 			},
 			wb(event) {
-				//					let target = event.target;
-				//				var shareqqstring="http://service.weibo.com/share/mobile.php?url="+'target.parentNode.parentNode.parentNode.parentNode.firstChild.href'+"&title="+target.parentNode.parentNode.parentNode.firstChild.innerHTML+"&pics="+target.parentNode.parentNode.parentNode.parentNode.firstChild.firstChild.src;
-				//				window.open(shareqqstring,'newwindow','height=800,width=800,top=100,left=600');
 				let target = event.target;
 				window.sharetitle = target.parentNode.parentNode.parentNode.firstChild.innerHTML;
 				window.shareUrl = target.parentNode.parentNode.parentNode.parentNode.firstChild.firstChild.src;
@@ -178,9 +190,9 @@
 				window.open(shareqqstring, 'height=800,width=800,top=100,left=800');
 			}
 		}
+
 	}
 </script>
-
 <style scoped>
 	* {
 		margin: 0;
@@ -263,8 +275,7 @@
 	
 	.content {
 		width: 100%;
-		height: 100%;
-		overflow: hidden;
+		margin-bottom: 50px;
 	}
 	
 	.contenttext {
@@ -322,8 +333,8 @@
 	
 	.contenttextleft>.swiper {
 		position: relative;
-		width: 532px;
-		height: 220px;
+		width: 820px;
+		height: 300px;
 	}
 	
 	.contenttextleft>.swiper>li {
@@ -333,8 +344,8 @@
 	
 	.contenttextleft>.swiper>li>a>img {
 		display: block;
-		width: 532px;
-		height: 220px;
+		width: 820px;
+		height: 300px;
 	}
 	
 	.contenttextleft>.waterfall>li>a {
@@ -539,12 +550,11 @@
 		font-size: 14px;
 		color: #333;
 	}
-	
-	footer {
+	/*footer {
 		width: 100%;
 		height: 54px;
 		background-color: #575757;
-		margin: 0;
+		margin-top: 50px;
 	}
 	
 	.footer {
@@ -569,6 +579,7 @@
 	.footer>p:last-child>a {
 		color: #999;
 	}
+	*/
 	
 	#gotop {
 		width: 55px;
@@ -591,17 +602,7 @@
 		height: 100px;
 		line-height: 100px;
 		margin: 0 auto;
-	}
-	
-	#page-box>.pages>a {
-		padding: 15px 20px;
-		font-size: 18px;
-		color: #999;
-		margin: 5px;
-	}
-	
-	#page-box>.pages>a:hover {
-		background: yellow;
-		color: #000000;
+		text-align: center;
+		margin-bottom: 100px;
 	}
 </style>

@@ -186,7 +186,6 @@
 	
 	.tagcontent {
 		width: 100%;
-		height: 100%;
 	}
 	
 	#div {
@@ -251,13 +250,15 @@
 	
 	#div {
 		width: 100%;
-		height: 100px;
+		height: 70px;
 	}
 	
 	.content {
 		width: 100%;
 		height: 100%;
+		background: #f2f2f2;
 		overflow: hidden;
+		padding-top: 30px;
 	}
 	
 	.contenttext {
@@ -299,12 +300,13 @@
 		-moz-page-break-inside: avoid;
 		-webkit-column-break-inside: avoid;
 		break-inside: avoid;
-		margin: 5px;
+		margin:15px 10px;
+		width:260px;
 	}
 	
 	.contenttextleft>ul>.contentimage>a {
 		display: block;
-		width: 260px;
+		width: 100%;
 		max-height: 464px;
 		overflow: hidden;
 	}
@@ -365,11 +367,14 @@
 		text-decoration: none;
 		display: inline-block;
 		padding: 5px 0px;
+		width: 85px;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space:nowrap
 	}
 	
 	.contenttextleft>.waterfall>li>.contenttext-tltle>.content-name>.share {
 		float: right;
-		margin-right: 10px;
 	}
 	
 	.contenttextleft>.waterfall>li>.contenttext-tltle>.content-name>.share>a {
@@ -404,14 +409,18 @@
 	}
 	
 	.contenttextright>.zuihost {
-		width: 260px;
-		height: 318px;
+		width: 280px;
+		height: 380px;
 		/*overflow: hidden;*/
+		margin-left: 20px;
+		background: #FFFFFF;
+		padding: 5px;
 	}
 	
 	.contenttextright>.zuihost>strong {
 		font-size: 14px;
 		vertical-align: top;
+		padding-left: 5px;
 	}
 	
 	.contenttextright>.zuihost>strong>i {
@@ -428,11 +437,11 @@
 	}
 	
 	.contenttextright>.zuihost>.zuihostcontent>li {
-		width: 128px;
-		height: 160px;
-		float: left;
-		margin-bottom: 15px;
-		margin-right: 2px;
+			width: 128px;
+			height: 160px;
+			float: left;
+			margin: 3px;
+			margin-bottom: 15px;
 	}
 	
 	.contenttextright>.zuihost>.zuihostcontent>li>a {
@@ -459,8 +468,11 @@
 	}
 	
 	.contenttextright>.zuihosttag {
-		width: 260px;
+		width: 280px;
 		margin-top: 30px;
+		margin-left: 20px;
+		background: #FFFFFF;
+		padding: 10px;
 	}
 	
 	.contenttextright>.zuihosttag>strong {
@@ -484,7 +496,7 @@
 	
 	.contenttextright>.zuihosttag>.zuihosttaglist>a {
 		font-size: 14px;
-		color: #fd7a2f;
+		color: #999999;
 		line-height: 25px;
 		display: inline;
 		padding: 2px;
@@ -492,8 +504,11 @@
 	}
 	
 	.contenttextright>.Hottopic {
-		width: 260px;
+		width: 280px;
 		margin-top: 30px;
+		margin-left: 20px;
+		background: #FFFFFF;
+		padding: 10px;
 	}
 	
 	.contenttextright>.Hottopic>strong {
@@ -516,7 +531,7 @@
 	.Hottopiclist>li {
 		width: 260px;
 		height: 60px;
-		margin: 10px;
+		margin: 10px 0;
 	}
 	
 	.Hottopiclist>li>a>img {
@@ -530,37 +545,6 @@
 		font-size: 14px;
 		color: #333;
 	}
-	
-	footer {
-		width: 100%;
-		height: 54px;
-		background-color: #575757;
-		margin: 0;
-	}
-	
-	.footer {
-		width: 1100px;
-		height: 54px;
-		margin: 0 auto;
-		height: 54px;
-		text-align: center;
-		font-size: 12px;
-		line-height: 54px;
-		color: #999;
-	}
-	
-	.footer>p:first-child {
-		float: left;
-	}
-	
-	.footer>p:last-child {
-		float: right;
-	}
-	
-	.footer>p:last-child>a {
-		color: #999;
-	}
-	
 	#gotop {
 		width: 55px;
 		height: 45px;

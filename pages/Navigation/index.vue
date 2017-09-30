@@ -90,7 +90,7 @@
 		</div>
 		<div id="gotop">
 		</div>
-		<footer>
+		<!--<footer>
 			<div class="footer">
 				<p>旭峰海波科技（北京）有限公司 Copyright ©2016 All Rights Reserved. &nbsp;&nbsp;&nbsp;京ICP备15059087号</p>
 				<p>
@@ -99,7 +99,7 @@
 					<a target="_blank" href="http://www.17getfun.com/publish/index">APP下载</a>
 				</p>
 			</div>
-		</footer>
+		</footer>-->
 	</div>
 
 </template>

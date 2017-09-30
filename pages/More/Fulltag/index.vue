@@ -147,11 +147,14 @@
 		height: 100%;
 		overflow: hidden;
 		margin-top: 30px;
+		background: #f2f2f2;
 	}
 	
 	.hosttaglist {
 		width: 1100px;
 		margin: 80px auto 0;
+		background: #FFFFFF;
+		padding: 50px 25px;
 	}
 	
 	.hosttaglist>a {
